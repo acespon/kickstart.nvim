@@ -1,0 +1,448 @@
+*cheatsheet.txt*    Personal Neovim Cheatsheet
+
+                    NEOVIM IDE CHEATSHEET
+                    Personal Reference Manual
+
+Author: Arthur Cespon
+Last Updated: 2026-04-28
+
+==============================================================================
+CONTENTS                                                   *cheatsheet-contents*
+
+    1. Word Under Cursor ...................... |cheatsheet-word|
+    2. Renaming ............................... |cheatsheet-rename|
+    3. File & Directory Navigation ............ |cheatsheet-files|
+    4. System Clipboard ....................... |cheatsheet-clipboard|
+    5. Fuzzy Finder (Telescope) ............... |cheatsheet-telescope|
+    6. Buffers & Splits ....................... |cheatsheet-buffers|
+    7. Text Objects ........................... |cheatsheet-textobjects|
+    8. Marks & Jumps .......................... |cheatsheet-marks|
+    9. LSP Features ........................... |cheatsheet-lsp|
+    10. Quickfix & Location List .............. |cheatsheet-quickfix|
+    11. Macros & Registers .................... |cheatsheet-macros|
+
+==============================================================================
+1. WORD UNDER CURSOR                                          *cheatsheet-word*
+
+Search~
+    `*`             Search forward for exact word under cursor
+    `#`             Search backward for exact word under cursor
+    `g*`            Search forward (partial match, no word boundaries)
+    `g#`            Search backward (partial match)
+
+Change~
+    `ciw`           Change inner word (cursor anywhere in word)
+    `caw`           Change around word (includes trailing space)
+    `cW`            Change inner WORD (space-delimited)
+
+Delete~
+    `diw`           Delete inner word
+    `daw`           Delete around word (includes space)
+    `dW`            Delete inner WORD
+
+Yank~
+    `yiw`           Yank inner word
+    `yaw`           Yank around word
+    `yW`            Yank inner WORD
+
+Visual Select~
+    `viw`           Visual select inner word
+    `vaw`           Visual select around word
+    `vW`            Visual select inner WORD
+
+==============================================================================
+2. RENAMING                                                  *cheatsheet-rename*
+
+LSP Rename~
+    `<leader>rn`    Rename symbol under cursor (LSP)
+    `:IncRename`    Incremental rename (if plugin installed)
+
+Substitution~
+    `:s/old/new/`       Replace first occurrence on current line
+    `:s/old/new/g`      Replace all occurrences on current line
+    `:%s/old/new/g`     Replace all in file
+    `:%s/old/new/gc`    Replace all in file with confirmation
+    `:'<,'>s/old/new/g` Replace in visual selection
+
+Interactive Rename with cgn~
+    1. `/pattern`       Search for the word
+    2. `cgn`            Change next match
+    3. Type replacement
+    4. `<Esc>`          Exit insert mode
+    5. `.`              Repeat on next match (or `n` to skip)
+
+Using gn Motion~
+    `gn`            Select next search match (forward)
+    `gN`            Select next search match (backward)
+    `dgn`           Delete next match
+    `cgn`           Change next match
+
+==============================================================================
+3. FILE & DIRECTORY NAVIGATION                               *cheatsheet-files*
+
+Basic Commands~
+    `:e {file}`     Edit/open a file
+    `:e .`          Open current directory
+    `:Ex`           Open netrw file explorer
+    `:Sex`          Open explorer in horizontal split
+    `:Vex`          Open explorer in vertical split
+    `:Tex`          Open explorer in new tab
+
+Netrw Navigation~
+    `<CR>`          Open file/directory
+    `-`             Go up one directory
+    `%`             Create new file
+    `d`             Create new directory
+    `D`             Delete file/directory
+    `R`             Rename file
+    `gh`            Toggle hidden files
+
+NvimTree (if installed)~
+    `<leader>e`     Toggle file tree (common mapping)
+    `a`             Create file/directory
+    `d`             Delete
+    `r`             Rename
+    `c`             Copy
+    `p`             Paste
+    `y`             Copy name
+    `Y`             Copy relative path
+    `gy`            Copy absolute path
+
+Oil.nvim (if installed)~
+    `-`             Open parent directory
+    `<CR>`          Open file/directory
+    Edit buffer     Rename files by editing
+    `:w`            Save changes (apply renames/deletes)
+
+==============================================================================
+4. SYSTEM CLIPBOARD                                       *cheatsheet-clipboard*
+
+The `+` register is the system clipboard (macOS pasteboard).
+
+Yank to System Clipboard~
+    `"+y`           Yank selection to clipboard
+    `"+yy`          Yank line to clipboard
+    `"+yiw`         Yank word to clipboard
+    `"+y$`          Yank to end of line to clipboard
+
+Paste from System Clipboard~
+    `"+p`           Paste after cursor
+    `"+P`           Paste before cursor
+    `<C-r>+`        Paste in insert mode
+
+Visual Mode~
+    Select text, then:
+    `"+y`           Yank selection to clipboard
+    `"+d`           Cut selection to clipboard
+
+Tip: Add to init.lua for easier clipboard access: >lua
+    vim.opt.clipboard = "unnamedplus"  -- Use system clipboard
+<
+With this setting, regular `y` and `p` use the system clipboard.
+
+==============================================================================
+5. FUZZY FINDER (TELESCOPE)                               *cheatsheet-telescope*
+
+Common Keybindings (typical mappings)~
+    `<leader>ff`    Find files
+    `<leader>fg`    Live grep (search in files)
+    `<leader>fb`    Browse buffers
+    `<leader>fh`    Help tags
+    `<leader>fr`    Recent files
+    `<leader>fc`    Find in current buffer
+
+Telescope Picker Navigation~
+    `<C-n>/<Down>`  Next item
+    `<C-p>/<Up>`    Previous item
+    `<CR>`          Open selection
+    `<C-x>`         Open in horizontal split
+    `<C-v>`         Open in vertical split
+    `<C-t>`         Open in new tab
+    `<C-u>`         Scroll preview up
+    `<C-d>`         Scroll preview down
+    `<Esc>`         Close picker (normal mode)
+    `<C-c>`         Close picker (insert mode)
+
+Search Modes~
+    `<C-/>`         Toggle between fuzzy and exact match
+    Type `'word`    Exact match (prefix with single quote)
+    Type `^word`    Prefix match
+    Type `word$`    Suffix match
+
+Actions~
+    `<Tab>`         Toggle selection
+    `<S-Tab>`       Toggle selection and move up
+    `<C-q>`         Send all to quickfix list
+    `<M-q>`         Send selected to quickfix list
+
+==============================================================================
+6. BUFFERS & SPLITS                                        *cheatsheet-buffers*
+
+Buffer Navigation~
+    `:ls`           List all buffers
+    `:b {name}`     Switch to buffer by name (tab completion)
+    `:b {num}`      Switch to buffer by number
+    `:bn`           Next buffer
+    `:bp`           Previous buffer
+    `:b#`           Alternate/last buffer
+    `<C-^>`         Toggle between current and alternate buffer
+    `:bd`           Delete/close current buffer
+    `:bd {num}`     Delete specific buffer
+    `:%bd`          Delete all buffers
+    `:%bd|e#`       Delete all except current
+
+Creating Splits~
+    `:split` / `:sp`        Horizontal split
+    `:vsplit` / `:vs`       Vertical split
+    `:split {file}`         Horizontal split with file
+    `:vsplit {file}`        Vertical split with file
+    `<C-w>s`                Horizontal split
+    `<C-w>v`                Vertical split
+    `<C-w>n`                New horizontal split with empty buffer
+
+Window Navigation~
+    `<C-w>h`        Move to left window
+    `<C-w>j`        Move to window below
+    `<C-w>k`        Move to window above
+    `<C-w>l`        Move to right window
+    `<C-w>w`        Cycle through windows
+    `<C-w>p`        Previous (last accessed) window
+
+Window Resizing~
+    `<C-w>=`        Make all windows equal size
+    `<C-w>_`        Maximize height
+    `<C-w>|`        Maximize width
+    `<C-w>+`        Increase height
+    `<C-w>-`        Decrease height
+    `<C-w>>`        Increase width
+    `<C-w><`        Decrease width
+    `:resize {n}`   Set height to n lines
+    `:vertical resize {n}`  Set width to n columns
+
+Window Management~
+    `<C-w>o`        Close all other windows (`:only`)
+    `<C-w>c`        Close current window
+    `<C-w>q`        Quit current window
+    `<C-w>T`        Move window to new tab
+    `<C-w>r`        Rotate windows downward
+    `<C-w>R`        Rotate windows upward
+    `<C-w>x`        Exchange with next window
+    `<C-w>H/J/K/L`  Move window to far left/bottom/top/right
+
+Tabs~
+    `:tabnew`       New tab
+    `:tabnew {file}` New tab with file
+    `gt`            Next tab
+    `gT`            Previous tab
+    `{n}gt`         Go to tab n
+    `:tabclose`     Close tab
+    `:tabonly`      Close all other tabs
+
+==============================================================================
+7. TEXT OBJECTS                                         *cheatsheet-textobjects*
+
+Format: {operator}{a|i}{object}
+    `a` = "around" (includes delimiters/spaces)
+    `i` = "inner" (inside only)
+
+Operators~
+    `c`     Change
+    `d`     Delete
+    `y`     Yank
+    `v`     Visual select
+    `>`     Indent
+    `<`     Outdent
+    `=`     Auto-format
+
+Built-in Text Objects~
+    `w`     Word
+    `W`     WORD (space-delimited)
+    `s`     Sentence
+    `p`     Paragraph
+    `t`     HTML/XML tag
+    `"`     Double quotes
+    `'`     Single quotes
+    `` ` `` Backticks
+    `(`/`)` Parentheses
+    `[`/`]` Square brackets
+    `{`/`}` Curly braces
+    `<`/`>` Angle brackets
+    `B`     Block (braces)
+    `b`     Block (parentheses)
+
+Examples~
+    `ci"`           Change inside double quotes
+    `da(`           Delete around parentheses
+    `vi{`           Visual select inside braces
+    `yap`           Yank around paragraph
+    `cit`           Change inside HTML tag
+    `dat`           Delete entire HTML tag
+    `>ip`           Indent inner paragraph
+    `=i{`           Auto-format inside braces
+
+Treesitter Text Objects (if configured)~
+    `af`            Around function
+    `if`            Inside function
+    `ac`            Around class
+    `ic`            Inside class
+    `aa`            Around argument/parameter
+    `ia`            Inside argument/parameter
+
+==============================================================================
+8. MARKS & JUMPS                                             *cheatsheet-marks*
+
+Setting Marks~
+    `m{a-z}`        Set local mark (buffer-specific)
+    `m{A-Z}`        Set global mark (across files)
+
+Jumping to Marks~
+    `'{mark}`       Jump to line of mark
+    `` `{mark} ``   Jump to exact position of mark
+    `''`            Jump to line before last jump
+    ``` `` ```      Jump to position before last jump
+    `'.`            Jump to line of last change
+    `` `. ``        Jump to position of last change
+
+Special Marks~
+    `'0` - `'9`     Position when last exited Vim (0=most recent)
+    `'"'`           Position when last exiting current buffer
+    `'^`            Position of last insert
+    `'[` and `']`   Start/end of last change or yank
+    `'<` and `'>`   Start/end of last visual selection
+
+Mark Commands~
+    `:marks`        List all marks
+    `:delmarks a`   Delete mark a
+    `:delmarks!`    Delete all lowercase marks
+
+Jump List~
+    `<C-o>`         Jump to older position in jump list
+    `<C-i>`         Jump to newer position in jump list
+    `:jumps`        Show jump list
+
+Change List~
+    `g;`            Jump to older change position
+    `g,`            Jump to newer change position
+    `:changes`      Show change list
+
+==============================================================================
+9. LSP FEATURES                                                *cheatsheet-lsp*
+
+Navigation (typical keybindings)~
+    `gd`            Go to definition
+    `gD`            Go to declaration
+    `gr`            Go to references
+    `gi`            Go to implementation
+    `gy`/`gt`       Go to type definition
+    `<C-]>`         Go to definition (tag-like)
+    `<C-t>`         Jump back from definition
+
+Information~
+    `K`             Hover documentation
+    `<C-k>`         Signature help (in insert mode)
+    `<leader>k`     Signature help (normal mode)
+
+Actions~
+    `<leader>rn`    Rename symbol
+    `<leader>ca`    Code actions
+    `<leader>f`     Format buffer/selection
+
+Diagnostics~
+    `[d`            Previous diagnostic
+    `]d`            Next diagnostic
+    `<leader>e`     Show diagnostic float
+    `<leader>q`     Add diagnostics to location list
+
+Workspace~
+    `<leader>wa`    Add workspace folder
+    `<leader>wr`    Remove workspace folder
+    `<leader>wl`    List workspace folders
+
+Commands~
+    `:LspInfo`      Show LSP client info
+    `:LspStart`     Start LSP client
+    `:LspStop`      Stop LSP client
+    `:LspRestart`   Restart LSP client
+
+==============================================================================
+10. QUICKFIX & LOCATION LIST                              *cheatsheet-quickfix*
+
+Quickfix List (global)~
+    `:copen`        Open quickfix window
+    `:cclose`       Close quickfix window
+    `:cn`           Next item
+    `:cp`           Previous item
+    `:cfirst`       First item
+    `:clast`        Last item
+    `:cc {n}`       Go to item n
+    `:cdo {cmd}`    Run command on each item
+    `:colder`       Previous quickfix list
+    `:cnewer`       Next quickfix list
+
+Location List (per-window)~
+    `:lopen`        Open location list
+    `:lclose`       Close location list
+    `:ln`           Next item
+    `:lp`           Previous item
+    `:lfirst`       First item
+    `:llast`        Last item
+
+Populate Quickfix~
+    `:grep {pat}`   Grep and populate quickfix
+    `:vimgrep /pat/ **/*`   Vimgrep pattern in all files
+    `:make`         Run makeprg and capture errors
+
+From Telescope~
+    `<C-q>`         Send all results to quickfix
+    `<M-q>`         Send selected to quickfix
+
+==============================================================================
+11. MACROS & REGISTERS                                       *cheatsheet-macros*
+
+Recording Macros~
+    `q{a-z}`        Start recording to register
+    `q`             Stop recording
+    `@{a-z}`        Execute macro in register
+    `@@`            Repeat last executed macro
+    `{n}@{a-z}`     Execute macro n times
+
+Macro Tips~
+    - Start with `0` to position at line start
+    - End with `j` to move to next line (for repeating)
+    - Use `@:` to repeat last command-line command
+
+Viewing Registers~
+    `:reg`          Show all registers
+    `:reg {abc}`    Show specific registers
+
+Special Registers~
+    `""`            Unnamed register (last delete/yank)
+    `"0`            Yank register (last yank only)
+    `"1`-`"9`       Delete history (1=most recent)
+    `"-`            Small delete register
+    `"*`            Selection clipboard (X11 primary)
+    `"+`            System clipboard
+    `"/`            Last search pattern
+    `":`            Last command-line command
+    `".`            Last inserted text
+    `"%`            Current filename
+    `"#`            Alternate filename
+    `"_`            Black hole register (discard)
+    `"=`            Expression register
+
+Using Registers~
+    `"{reg}y`       Yank to register
+    `"{reg}p`       Paste from register
+    `"{reg}d`       Delete to register
+    `<C-r>{reg}`    Paste register in insert/command mode
+
+Appending to Registers~
+    `"Ayy`          Append to register a (uppercase letter)
+
+Expression Register~
+    `<C-r>=`        Enter expression in insert mode
+    Example: `<C-r>=5*5<CR>` inserts 25
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:
+

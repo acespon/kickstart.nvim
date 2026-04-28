@@ -1,3 +1,16 @@
+cheatsheet-buffers	cheatsheet.txt	/*cheatsheet-buffers*
+cheatsheet-clipboard	cheatsheet.txt	/*cheatsheet-clipboard*
+cheatsheet-contents	cheatsheet.txt	/*cheatsheet-contents*
+cheatsheet-files	cheatsheet.txt	/*cheatsheet-files*
+cheatsheet-lsp	cheatsheet.txt	/*cheatsheet-lsp*
+cheatsheet-macros	cheatsheet.txt	/*cheatsheet-macros*
+cheatsheet-marks	cheatsheet.txt	/*cheatsheet-marks*
+cheatsheet-quickfix	cheatsheet.txt	/*cheatsheet-quickfix*
+cheatsheet-rename	cheatsheet.txt	/*cheatsheet-rename*
+cheatsheet-telescope	cheatsheet.txt	/*cheatsheet-telescope*
+cheatsheet-textobjects	cheatsheet.txt	/*cheatsheet-textobjects*
+cheatsheet-word	cheatsheet.txt	/*cheatsheet-word*
+cheatsheet.txt	cheatsheet.txt	/*cheatsheet.txt*
 kickstart-is	kickstart.txt	/*kickstart-is*
 kickstart-is-not	kickstart.txt	/*kickstart-is-not*
 kickstart.nvim	kickstart.txt	/*kickstart.nvim*

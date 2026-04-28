@@ -1,5 +1,22 @@
--- You can add your own plugins here or in other files in this directory!
---  I promise not to create any merge conflicts in this directory :)
---
--- See the kickstart.nvim README for more information
-return {}
+-- Custom plugins for employee-api development
+return {
+  -- Lazygit integration
+  {
+    'kdheepak/lazygit.nvim',
+    cmd = { 'LazyGit', 'LazyGitConfig', 'LazyGitCurrentFile' },
+    dependencies = { 'nvim-lua/plenary.nvim' },
+    keys = {
+      { '<leader>lg', '<cmd>LazyGit<cr>', desc = 'Open LazyGit' },
+    },
+  },
+
+  -- Better diff view
+  {
+    'sindrets/diffview.nvim',
+    cmd = { 'DiffviewOpen', 'DiffviewFileHistory' },
+    keys = {
+      { '<leader>gd', '<cmd>DiffviewOpen<cr>', desc = 'Git diff view' },
+      { '<leader>gh', '<cmd>DiffviewFileHistory %<cr>', desc = 'File history' },
+    },
+  },
+}

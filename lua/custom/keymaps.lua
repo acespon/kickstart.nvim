@@ -1,2 +1,0 @@
--- Custom keymaps (generic, not project-specific)
--- Project-specific keymaps go in .nvim.lua files in project roots

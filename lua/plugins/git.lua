@@ -1,6 +1,4 @@
--- Custom plugins for employee-api development
 return {
-  -- Lazygit integration
   {
     'kdheepak/lazygit.nvim',
     cmd = { 'LazyGit', 'LazyGitConfig', 'LazyGitCurrentFile' },
@@ -9,8 +7,6 @@ return {
       { '<leader>lg', '<cmd>LazyGit<cr>', desc = 'Open LazyGit' },
     },
   },
-
-  -- Better diff view
   {
     'sindrets/diffview.nvim',
     cmd = { 'DiffviewOpen', 'DiffviewFileHistory' },

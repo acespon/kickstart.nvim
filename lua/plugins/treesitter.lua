@@ -20,6 +20,9 @@ return {
       'javascript',
       'json',
       'yaml',
+      'typescript',
+      'tsx',
+      'java',
     },
     auto_install = true,
     highlight = {

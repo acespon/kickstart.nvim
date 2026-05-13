@@ -109,11 +109,16 @@ return {
           'lua-language-server',
           'gopls',
           'stylua',
+          'kotlin-language-server',
+          'ktlint',
+          'typescript-language-server',
+          'prettier',
+          'jdtls',
         },
       }
 
       -- Enable LSP servers (configs auto-discovered from lsp/*.lua)
-      vim.lsp.enable { 'lua_ls', 'gopls' }
+      vim.lsp.enable { 'lua_ls', 'gopls', 'ts_ls' }
     end,
   },
 }

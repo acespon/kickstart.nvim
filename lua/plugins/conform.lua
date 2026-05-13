@@ -29,7 +29,15 @@ return {
     end,
     formatters_by_ft = {
       lua = { 'stylua' },
-      go = { 'goimports', 'gofmt' },
+      go = { 'goimports' },
+      javascript = { 'prettier' },
+      javascriptreact = { 'prettier' },
+      typescript = { 'prettier' },
+      typescriptreact = { 'prettier' },
+      json = { 'prettier' },
+      css = { 'prettier' },
+      html = { 'prettier' },
+      markdown = { 'prettier' },
     },
   },
 }

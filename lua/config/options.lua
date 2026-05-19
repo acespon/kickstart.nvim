@@ -55,3 +55,6 @@ vim.opt.scrolloff = 10
 
 -- Allow project-local config files (.nvim.lua in project roots)
 vim.opt.exrc = true
+
+-- Auto-reload files changed externally (e.g. by Claude Code)
+vim.opt.autoread = true

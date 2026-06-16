@@ -21,11 +21,9 @@ if conform_ok then
 end
 
 -- Treesitter parsers for work languages
-vim.defer_fn(function()
-  local ts_ok, ts_configs = pcall(require, 'nvim-treesitter.configs')
-  if ts_ok then
-    ts_configs.setup {
-      ensure_installed = { 'templ', 'swift', 'kotlin', 'proto' },
-    }
-  end
-end, 0)
+local ts_ok, ts_configs = pcall(require, 'nvim-treesitter.configs')
+if ts_ok then
+  ts_configs.setup {
+    ensure_installed = { 'templ', 'swift', 'kotlin', 'proto' },
+  }
+end

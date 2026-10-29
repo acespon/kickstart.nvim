@@ -21,9 +21,7 @@ if conform_ok then
 end
 
 -- Treesitter parsers for work languages
-local ts_ok, ts_configs = pcall(require, 'nvim-treesitter.configs')
+local ts_ok, ts = pcall(require, 'nvim-treesitter')
 if ts_ok then
-  ts_configs.setup {
-    ensure_installed = { 'templ', 'swift', 'kotlin', 'proto' },
-  }
+  ts.install { 'templ', 'swift', 'kotlin', 'proto' }
 end

@@ -1,7 +1,8 @@
 return {
   'nvim-treesitter/nvim-treesitter',
   build = ':TSUpdate',
-  branch = 'main',
+  branch = 'master',
+  main = 'nvim-treesitter.configs',
   opts = {
     ensure_installed = {
       'bash',
@@ -23,6 +24,7 @@ return {
       'typescript',
       'tsx',
       'java',
+      'python',
     },
     auto_install = true,
     highlight = {

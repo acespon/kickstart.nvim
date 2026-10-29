@@ -114,11 +114,13 @@ return {
           'typescript-language-server',
           'prettier',
           'jdtls',
+          'basedpyright',
+          'ruff',
         },
       }
 
       -- Enable LSP servers (configs auto-discovered from lsp/*.lua)
-      vim.lsp.enable { 'lua_ls', 'gopls', 'ts_ls' }
+      vim.lsp.enable { 'lua_ls', 'gopls', 'ts_ls', 'basedpyright', 'ruff' }
     end,
   },
 }

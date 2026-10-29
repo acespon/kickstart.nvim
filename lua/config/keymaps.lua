@@ -27,4 +27,13 @@ vim.keymap.set('v', '<space>x', ':.lua<CR>')
 vim.keymap.set('n', '<space>g', '', { desc = '[G]o' })
 vim.keymap.set('n', '<space>gt', ':GoTest<CR>', { desc = '[G]o [T]est' })
 vim.keymap.set('n', '<space>gb', ':GoBuild<CR>', { desc = '[G]o [B]uild' })
-vim.keymap.set('n', '<space>gr', ':GoRun<CR>', { desc = '[G]o [R]un' })
+-- In a Python file, save and run it in a terminal split; otherwise :GoRun
+vim.keymap.set('n', '<space>gr', function()
+  if vim.bo.filetype == 'python' then
+    vim.cmd 'update'
+    vim.cmd('split | terminal python3 ' .. vim.fn.shellescape(vim.fn.expand '%'))
+    vim.cmd 'startinsert'
+  else
+    vim.cmd 'GoRun'
+  end
+end, { desc = '[G]o [R]un (Python: run file)' })

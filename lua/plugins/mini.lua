@@ -1,7 +1,14 @@
 return {
-  'echasnovski/mini.nvim',
+  'nvim-mini/mini.nvim',
   config = function()
-    require('mini.ai').setup { n_lines = 500 }
+    require('mini.ai').setup {
+      -- an/in are Neovim 0.12's built-in incremental selection keys
+      mappings = {
+        around_next = 'aa',
+        inside_next = 'ii',
+      },
+      n_lines = 500,
+    }
     require('mini.surround').setup()
 
     local statusline = require 'mini.statusline'

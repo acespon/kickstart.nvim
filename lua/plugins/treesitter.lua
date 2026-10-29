@@ -40,7 +40,7 @@ return {
       vim.treesitter.start(buf, lang)
       if lang == 'ruby' then
         vim.bo[buf].syntax = 'ON' -- keep regex highlighting alongside treesitter
-      else
+      elseif vim.treesitter.query.get(lang, 'indents') then
         vim.bo[buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
       end
     end
